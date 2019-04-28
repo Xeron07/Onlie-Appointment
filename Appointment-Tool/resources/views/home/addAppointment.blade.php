@@ -71,9 +71,10 @@
          <br/>
          <div class="row">
            Select date:    <input type="date"   class="form-control col-sm-6" name="" id="date">
-           Select Time:    <input type="text" class="form-control col-sm-6" id="single-input" value="" placeholder="现在">
+           Select Time:    <input type="text" class="form-control col-sm-3" id="single-input" value="" placeholder="From"> <input type="text" class="form-control col-sm-3" id="single-input2" value="" placeholder="To">
         </div>
-         
+         <input type="number" class="form-control" name="" id="duration" placeholder="Duration for each session">
+         <button type="button" class="btn btn-outline-info">Add</button>
    
       <br/>
       <br/>
@@ -109,6 +110,7 @@
  }
 
  $('#single-input').clockpicker();
+ $('#single-input2').clockpicker();
 </script>
 
 </html>
