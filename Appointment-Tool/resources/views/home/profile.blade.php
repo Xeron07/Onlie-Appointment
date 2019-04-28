@@ -6,16 +6,31 @@
   <meta name="description" content="website description" />
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
-  <link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
+ 
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- sweetalert 2-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
 </head>
 
 <body>
   <div id="main">
     <div id="header">
       <div id="logo">
-        <div id="logo_text">
+      <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
-          <h1><a href="/home">予約<span class="logo_colour">Online</span></a></h1>
+          <h1 data-toggle="tooltip" title="Yoyaku Online"><a href="/home">予約<span class="logo_colour">Online</span></a></h1>
           <h2>Easy. Simple. Online Appointment.</h2>
         </div>
       </div>

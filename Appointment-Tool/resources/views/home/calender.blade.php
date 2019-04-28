@@ -4,18 +4,33 @@
 <head>
   <title>shadowplay_1 - contact us</title>
   <meta name="description" content="website description" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
-  <link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
+
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- sweetalert 2-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
 </head>
 
 <body>
   <div id="main">
     <div id="header">
       <div id="logo">
-        <div id="logo_text">
+      <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
-          <h1><a href="/home">予約<span class="logo_colour">Online</span></a></h1>
+          <h1 data-toggle="tooltip" title="Yoyaku Online"><a href="/home">予約<span class="logo_colour">Online</span></a></h1>
           <h2>Easy. Simple. Online Appointment.</h2>
         </div>
       </div>
@@ -31,53 +46,149 @@
         </ul>
       </div>
     </div>
-    <div id="content_header"></div>
-    <div id="site_content">
-      <div class="sidebar">
-        <!-- insert your sidebar items here -->
-        <h3>Latest News</h3>
-        <h4>New Website Launched</h4>
-        <h5>January 1st, 2010</h5>
-        <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-        <p></p>
-        <h4>New Website Launched</h4>
-        <h5>January 1st, 2010</h5>
-        <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="#">link 1</a></li>
-          <li><a href="#">link 2</a></li>
-          <li><a href="#">link 3</a></li>
-          <li><a href="#">link 4</a></li>
-        </ul>
-        <h3>Search</h3>
-        <form method="post" action="#" id="search_form">
-          <p>
-            <input class="search" type="text" name="search_field" value="Enter keywords....." />
-            <input name="search" type="image" style="border: 0; margin: 0 0 -9px 5px;" src="style/search.png" alt="Search" title="Search" />
-          </p>
-        </form>
+    <div class="container">
+    <br/>
+    <br/><br/><br/>
+
+
+      <div class="row">
+        <input type="text" id="search" class="form-control col-sm-3" width="20%" placeholder="Search">&nbsp;&nbsp;&nbsp;
+        <select class="form-control col-sm-3" width="20%" id="selectJob" onchange="getJob(this.value)">
+        <option value="" selected disabled hidden>Search By job</option>
+          @foreach($data as $jobData)
+          <option>{{$jobData->job}}</option>
+          @endforeach
+        </select>&nbsp;&nbsp;&nbsp;
+        <select class="form-control col-sm-3" width="20%" id="selectLocation" onchange="getLocation(this.value)">
+        <option value="" selected disabled hidden>Search By Location</option>
+        @foreach($data as $locData)
+          <option>{{$locData->location}}</option>
+          @endforeach
+        </select>
       </div>
-      <div id="content">
-        <!-- insert the page content here -->
-        <h1>Contact Us</h1>
-        <p>Below is an example of how a contact form might look with this template:</p>
-        <form action="" method="post">
-          <div class="form_settings">
-            <p><span>Name</span><input class="contact" type="text" name="your_name" value="" /></p>
-            <p><span>Email Address</span><input class="contact" type="text" name="your_email" value="" /></p>
-            <p><span>Message</span><textarea class="contact textarea" rows="8" cols="50" name="your_enquiry"></textarea></p>
-            <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="contact_submitted" value="submit" /></p>
-          </div>
-        </form>
-        <p><br /><br />NOTE: A contact form such as this would require some way of emailing the input to an email address.</p>
-      </div>
+       
+       <div id="ta">
+       <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Appointer Name</th>
+        <th>Email</th>
+        <th>Location</th>
+        <th>Time</th>
+        <th>Duration</th>
+        <th>Occupation</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody id="dataTable">
+     @foreach($data as $d)
+      <tr>
+       <td>{{$d->name}}</td>
+       <td>{{$d->email}}</td>
+       <td>{{$d->location}}</td>
+       <td>{{$d->time}}</td>
+       <td>{{$d->perSesssion}}</td>
+       <td>{{$d->job}}</td>
+       <td><button class="btn btn-outline-info" onclick="requestAppointment('{{$d->aId}}','{{$d->userId}}')">Accept</button></td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+       </div>
+
     </div>
-    <div id="content_footer"></div>
-    <div id="footer">
-      <p><a href="index.html">Home</a> | <a href="examples.html">Examples</a> | <a href="page.html">A Page</a> | <a href="another_page.html">Another Page</a> | <a href="contact.html">Contact Us</a></p>
-      <p>Copyright &copy; shadowplay_1 | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.html5webtemplates.co.uk">Free CSS Templates</a></p>
-    </div>
-  </div>
+
+
 </body>
+<script>
+ $(document).ready(function(){
+  $("#search").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#dataTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
+ function getJob(jobString){
+  var str="";
+  $.ajax({
+           method:"POST",
+           url:"/home/getJobs",
+           data:{job:jobString},
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                       
+                      for(var i=0;i<result.data.length;i++)
+                      {
+                        str +="<tr><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td>"+result.data[i].location+"</td><td>"+result.data[i].time+"</td><td>"+result.data[i].perSesssion+"</td><td>"+result.data[i].job+"</td><td><button class=\"btn btn-outline-info\" onclick=\"alert('"+result.data[i].aId+"')\">Accept</button></td></tr>";
+                      }
+               $("#dataTable").html(str);
+               $("#selectLocation").val("");
+
+             }
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
+ }
+ function getLocation(locationString){
+         
+      var str="";
+
+  $.ajax({
+           method:"POST",
+           url:"/home/getLocations",
+           data:{location:locationString},
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                       
+                      for(var i=0;i<result.data.length;i++)
+                      {
+                        str +="<tr><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td>"+result.data[i].location+"</td><td>"+result.data[i].time+"</td><td>"+result.data[i].perSesssion+"</td><td>"+result.data[i].job+"</td><td><button class=\"btn btn-outline-info\" onclick=\"alert('"+result.data[i].aId+"')\">Accept</button></td></tr>";
+                      }
+               $("#dataTable").html(str);
+               $("#selectJob").val("");
+             }
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
+ }
+
+ function requestAppointment(aId,appUserId)
+ {
+   alert(aId);
+   alert(appUserId);
+  $.ajax({
+           method:"POST",
+           url:"/home/request",
+           data:{appId:aId,appUserId:appUserId},
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                   Swal.fire("","Request sent","success");
+             }
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
+ }
+
+</script>
 </html>

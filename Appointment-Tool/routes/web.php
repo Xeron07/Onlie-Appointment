@@ -23,4 +23,9 @@ Route::group(['middleware'=>['verify']], function(){
   Route::get('/home/calender','HomeController@calender');
   Route::get('/home/addAppointment','HomeController@addAppointment');
   Route::get('/home/todo','HomeController@todo');
+  Route::post('/home/addAppointment','HomeController@addApp');
+  Route::post('/home/getJobs','HomeController@getJobs');
+  Route::post('/home/getLocations','HomeController@getLocations');
+  Route::post('/home/request','HomeController@setRequest');
+
 });
