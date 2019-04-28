@@ -12,8 +12,8 @@ class Login extends Controller
     }
 
     public function Log(Request $req){
-          $user=\App\Users::where('email',$req->email)
-          ->where('password',$req->lpass)
+          $user=\App\Users::where('email','=',$req->email)
+          ->where('password','=',$req->lpass)
           ->first();
           if($user){
                 $req->session()->flash('msg','login Success');
