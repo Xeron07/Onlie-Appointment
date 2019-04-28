@@ -54,11 +54,11 @@
     <div  id="content_header"></div>
       <div class="container">
       <!-- calender -->
-       <h2><u>Today</u></h2>
+       <h2><u>  Today</u></h2>
        <div class="row" style="font-size:120%">
-                <b>Date<p style="font-size:50%" id="todayDate"></p></b>
+                <b>Date<div style="font-size:50%" id="todayDate"></div></b>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>Time<p style="font-size:50%" id="time"></p> </b></div>
+                <b>Time<div style="font-size:50%" id="time"></div> </b></div>
               
       <br/>
       <br/>
@@ -69,12 +69,20 @@
       <div>
          Enter Location: <input type="text" class="form-control" name="" id="location"/>
          <br/>
-         <div class="row">
-           Select date:    <input type="date"   class="form-control col-sm-6" name="" id="date">
-           Select Time:    <input type="text" class="form-control col-sm-3" id="single-input" value="" placeholder="From"> <input type="text" class="form-control col-sm-3" id="single-input2" value="" placeholder="To">
-        </div>
+         
+           Select date:    <input type="date"   class="form-control col-sm-4" name="" id="date"><br/>
+        
+           Select Time:<br/>   
+            <input type="text" class="form-control col-sm-3" id="single-input" value="" placeholder="From">&nbsp;&nbsp;&nbsp; <input type="text" class="form-control col-sm-3" id="single-input2" value="" placeholder="To">
+        
+        <br/>
+        <br/>
+        Select Duration for each session:
          <input type="number" class="form-control" name="" id="duration" placeholder="Duration for each session">
-         <button type="button" class="btn btn-outline-info">Add</button>
+         <br/>
+         <br/>
+         <br/>
+         <button type="button" class="btn btn-outline-info btn-block" onclick="addAppointment()">Add</button>
    
       <br/>
       <br/>
@@ -111,6 +119,17 @@
 
  $('#single-input').clockpicker();
  $('#single-input2').clockpicker();
+
+  function addAppointment(){
+    var location=$("#location").val();
+    var from =$("#single-input").val();
+    var to=$("#single-input2").val();
+    var farray=from.split(":");
+    console.log(farray);
+    Swal.fire(farray[0]);
+
+  }
+
 </script>
 
 </html>
