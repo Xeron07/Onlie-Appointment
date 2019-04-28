@@ -1,12 +1,32 @@
 <!DOCTYPE HTML>
 <html>
 
+ 
 <head>
-  <title>shadowplay_1 - a page</title>
-  <meta name="description" content="website description" />
-  <meta name="keywords" content="website keywords, website keywords" />
-  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <title>Add Appointment</title>
+ 
+
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- sweetalert 2-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+  <script src="{{ asset('js/bootstrap-clockpicker.min.js') }}"></script>
+  <script src="{{ asset('js/clockpicker.js') }}"></script>
   <link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('css/bootstrap-clockpicker.min.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('css/clockpicker.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('css/github.min.css') }}" rel="stylesheet"/>
+
 </head>
 
 <body>
@@ -31,49 +51,64 @@
         </ul>
       </div>
     </div>
-    <div id="content_header"></div>
-    <div id="site_content">
-      <div class="sidebar">
-        <!-- insert your sidebar items here -->
-        <h3>Latest News</h3>
-        <h4>New Website Launched</h4>
-        <h5>January 1st, 2010</h5>
-        <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-        <p></p>
-        <h4>New Website Launched</h4>
-        <h5>January 1st, 2010</h5>
-        <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="#">link 1</a></li>
-          <li><a href="#">link 2</a></li>
-          <li><a href="#">link 3</a></li>
-          <li><a href="#">link 4</a></li>
-        </ul>
-        <h3>Search</h3>
-        <form method="post" action="#" id="search_form">
-          <p>
-            <input class="search" type="text" name="search_field" value="Enter keywords....." />
-            <input name="search" type="image" style="border: 0; margin: 0 0 -9px 5px;" src="style/search.png" alt="Search" title="Search" />
-          </p>
-        </form>
+    <div  id="content_header"></div>
+      <div class="container">
+      <!-- calender -->
+       <h2><u>Today</u></h2>
+       <div class="row" style="font-size:120%">
+                <b>Date<p style="font-size:50%" id="todayDate"></p></b>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>Time<p style="font-size:50%" id="time"></p> </b></div>
+              
+      <br/>
+      <br/>
+      <br/>
+
+      <h2><u>Add Appointment:</u></h2>
+
+      <div>
+         Enter Location: <input type="text" class="form-control" name="" id="location"/>
+         <br/>
+         <div class="row">
+           Select date:    <input type="date"   class="form-control col-sm-6" name="" id="date">
+           Select Time:    <input type="text" class="form-control col-sm-6" id="single-input" value="" placeholder="现在">
+        </div>
+         
+   
+      <br/>
+      <br/>
+      <br/>
+
       </div>
-      <div id="content">
-        <!-- insert the page content here -->
-        <h1>A Page</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-      </div>
-    </div>
+      <!--end-->
+</div>
     <div id="content_footer"></div>
     <div id="footer">
-      <p><a href="index.html">Home</a> | <a href="examples.html">Examples</a> | <a href="page.html">A Page</a> | <a href="another_page.html">Another Page</a> | <a href="contact.html">Contact Us</a></p>
+      <p><a href="/home">Home</a> | <a href="examples.html">Examples</a> | <a href="page.html">A Page</a> | <a href="another_page.html">Another Page</a> | <a href="contact.html">Contact Us</a></p>
       <p>Copyright &copy; shadowplay_1 | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | <a href="http://www.html5webtemplates.co.uk">Free CSS Templates</a></p>
     </div>
   </div>
 </body>
+
+<script>
+ $('document').ready(()=>{
+  
+  timeNow();
+ });
+
+ function timeNow(){
+    setTimeout(() => {
+      var now = new Date();
+      var dateString=now.getDate()+"-"+now.getMonth()+"-"+now.getFullYear();
+    $("#todayDate").html(dateString);
+
+    var timeString=now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
+    $("#time").html(timeString);
+    timeNow();
+    }, 1000);
+ }
+
+ $('#single-input').clockpicker();
+</script>
+
 </html>
