@@ -72,6 +72,7 @@
          Enter Location: <input type="text" class="form-control" name="" id="location"/>
          <br/>
          
+<<<<<<< HEAD
            Select date:    <input type="date"   class="form-control col-sm-4" name="" id="date">
            
            <br/>
@@ -92,6 +93,21 @@
          <br/>
          <br/>
          <button type="button" class="btn btn-info btn-block" onclick="addAppointment()">Add</button>
+=======
+           Select date:    <input type="date"   class="form-control col-sm-4" name="" id="date"><br/>
+        
+           Select Time:<br/>   
+            <input type="text" class="form-control col-sm-3" id="single-input" value="" placeholder="From">&nbsp;&nbsp;&nbsp; <input type="text" class="form-control col-sm-3" id="single-input2" value="" placeholder="To">
+        
+        <br/>
+        <br/>
+        Select Duration for each session:
+         <input type="number" class="form-control" name="" id="duration" placeholder="Duration for each session">
+         <br/>
+         <br/>
+         <br/>
+         <button type="button" class="btn btn-outline-info btn-block" onclick="addAppointment()">Add</button>
+>>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
    
       <br/>
       <br/>
@@ -126,6 +142,7 @@
     }, 1000);
  }
 
+<<<<<<< HEAD
  $('#single-input').clockpicker({
   twelvehour: true,
   placement: 'top',
@@ -208,6 +225,18 @@ headers: {
       
     }
     
+=======
+ $('#single-input').clockpicker();
+ $('#single-input2').clockpicker();
+
+  function addAppointment(){
+    var location=$("#location").val();
+    var from =$("#single-input").val();
+    var to=$("#single-input2").val();
+    var farray=from.split(":");
+    console.log(farray);
+    Swal.fire(farray[0]);
+>>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
 
   }
 

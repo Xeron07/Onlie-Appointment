@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+<<<<<<< HEAD
+=======
+
+>>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
 use Illuminate\Http\Request;
 
 
@@ -14,8 +18,11 @@ class HomeController extends Controller
         return view('home.index');
     }
 
-    public function profile(){
-        return view('home.profile');
+    public function profile(Request $req){
+        $user=DB::table("users")
+                       ->where("userId","=",$req->session()->get("userId"))
+                       ->first();
+        return view('home.profile')->with("user",$user);
 
     }
 
