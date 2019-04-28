@@ -20,6 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('date');
             $table->string('duration');
             $table->integer('perSesssion');
+            $table->integer('totalSession');
         });
     }
 

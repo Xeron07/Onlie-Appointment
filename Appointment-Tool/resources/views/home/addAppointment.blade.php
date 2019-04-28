@@ -5,7 +5,7 @@
 <head>
   <title>Add Appointment</title>
  
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
@@ -21,10 +21,10 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
   <script src="{{ asset('js/bootstrap-clockpicker.min.js') }}"></script>
-  <script src="{{ asset('js/clockpicker.js') }}"></script>
+  <script src="{{ asset('js/12hr.js') }}"></script>
   <link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
   <link href="{{ asset('css/bootstrap-clockpicker.min.css') }}" rel="stylesheet"/>
-  <link href="{{ asset('css/clockpicker.css') }}" rel="stylesheet"/>
+  <link href="{{ asset('css/12hr.css') }}" rel="stylesheet"/>
   <link href="{{ asset('css/github.min.css') }}" rel="stylesheet"/>
 
 </head>
@@ -35,7 +35,7 @@
       <div id="logo">
         <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
-          <h1><a href="/home">予約<span class="logo_colour">Online</span></a></h1>
+          <h1 data-toggle="tooltip" title="Yoyaku Online"><a href="/home">予約<span class="logo_colour">Online</span></a></h1>
           <h2>Easy. Simple. Online Appointment.</h2>
         </div>
       </div>
@@ -67,9 +67,33 @@
       <h2><u>Add Appointment:</u></h2>
 
       <div>
+      Enter Appointment Title: <input type="text" class="form-control" name="" id="atitle"/>
+         <br/>
          Enter Location: <input type="text" class="form-control" name="" id="location"/>
          <br/>
          
+<<<<<<< HEAD
+           Select date:    <input type="date"   class="form-control col-sm-4" name="" id="date">
+           
+           <br/>
+        
+           Select Time:<br/>   
+           <input type="text" class="form-control col-sm-3" id="single-input" value="" placeholder="From">
+        
+           &nbsp;&nbsp;&nbsp;
+           <input type="text" class="form-control col-sm-3" id="single-input2" value="" placeholder="To">
+           &nbsp;&nbsp;
+            
+        
+        <br/>
+        <br/>
+        Select Duration for each session(Minutes):
+         <input type="number" class="form-control" name="" id="duration" placeholder="Duration for each session(Minutes)">
+         <br/>
+         <br/>
+         <br/>
+         <button type="button" class="btn btn-info btn-block" onclick="addAppointment()">Add</button>
+=======
            Select date:    <input type="date"   class="form-control col-sm-4" name="" id="date"><br/>
         
            Select Time:<br/>   
@@ -83,6 +107,7 @@
          <br/>
          <br/>
          <button type="button" class="btn btn-outline-info btn-block" onclick="addAppointment()">Add</button>
+>>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
    
       <br/>
       <br/>
@@ -117,6 +142,90 @@
     }, 1000);
  }
 
+<<<<<<< HEAD
+ $('#single-input').clockpicker({
+  twelvehour: true,
+  placement: 'top',
+    align: 'left',
+    donetext: 'Done'
+ });
+ $('#single-input2').clockpicker({
+  twelvehour: true,
+  placement: 'top',
+    align: 'left',
+    donetext: 'Done'
+ });
+
+  function addAppointment(){
+
+    $.ajaxSetup({
+
+headers: {
+
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+}
+
+});
+
+
+
+
+    var location=$("#location").val();
+    var title=$("#atitle").val();
+    var date=$("#date").val();
+    var from =$("#single-input").val();
+    var to=$("#single-input2").val();
+    var farray=from.split(":");
+    var tarray=to.split(":");
+     
+    var fromA=farray[1].substring(2,4);
+    var toA=tarray[1].substring(2,4);
+
+
+    var fromTime=(farray[0]*60)+farray[1].substring(0,2);
+    var toTime=(tarray[0]*60)+tarray[1].substring(0,2);
+
+    console.log(fromA);
+    console.log(toA);
+    console.log(toTime-fromTime);
+    var dur=toTime-fromTime;
+    
+    if((fromA.match("PM") && toA.match("AM"))||(fromTime>toTime)){
+      Swal.fire("Oops!","Wrong time selected","error");
+    }
+    else
+    {
+      var session=(dur/$("#duration").val())/100;
+      if(location==""||date==""){
+        console.log(location);
+        console.log(date);
+        Swal.fire("Oops!","Please fill up all the field","error");
+      }else{
+           
+        $.ajax({
+           method:"POST",
+           url:"/home/addAppointment",
+           data:{title:title,date:date,location:location,time:from,duration:$("#duration").val(),perSession:dur,ses:session},
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                       console.log(result.data);
+                     Swal.fire("Yahoo00!!","Appointment Added","success");
+             }
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
+      }
+      
+    }
+    
+=======
  $('#single-input').clockpicker();
  $('#single-input2').clockpicker();
 
@@ -127,6 +236,7 @@
     var farray=from.split(":");
     console.log(farray);
     Swal.fire(farray[0]);
+>>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
 
   }
 
