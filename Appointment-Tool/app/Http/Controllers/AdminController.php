@@ -16,6 +16,22 @@ class AdminController extends Controller
 		return view('admin.index')->with('users',$users)
 		                          ->with('apps',$apps);
 }
+   public function newsUpload(Request $req){
+      DB::table("news")->insert([
+          "title"=>$req->title,
+          "msg"=>$req->msg,
+          "userId"=>$req->session()->get("userId")
+      ]);
+
+      return response()
+      ->json(array('msg'=>'success'), 200);
+   }
+
+   public function getNews(Request $req){
+    $data = DB::table("news")->get();
+    return response()
+    ->json(array('msg'=>'success','data'=>$data), 200);
+ }
 
 
     }

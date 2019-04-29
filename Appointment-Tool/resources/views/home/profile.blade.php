@@ -6,7 +6,7 @@
   <meta name="description" content="website description" />
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
-<<<<<<< HEAD
+
  
     <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -23,7 +23,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 <link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
-=======
+
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
   <meta charset="utf-8">
@@ -35,7 +35,7 @@
 
 <link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
 
->>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
+
 </head>
 
 <body>
@@ -50,12 +50,20 @@
       </div>
       <div id="menubar">
         <ul id="menu">
+        @if(Session::get('job')=="modarator")
+        <li class="selected"><a href="/home/profile">Profile</a></li>
+        <li><a href="/modarator">Modarator Panel</a></li>
+        @else
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
           <li ><a href="/home">Home</a></li>
           <li class="selected"><a href="/home/profile">Profile</a></li>
           <li><a href="/home/addAppointment">Add Appointment </a></li>
           <li><a href="/home/todo">To Do</a></li>
           <li><a href="/home/calender">Calender</a></li>
+          @if(Session::get('job')=="admin")
+          <li><a href="/admin">Admin Panel</a></li>
+          @endif
+          @endif
           <li><a href="/logout">Logout</a></li>
         </ul>
       </div>

@@ -43,41 +43,45 @@
 
 
                         <div class="input-group">
-                            <input class="input--style-1" type="text" placeholder="NAME" name="name">
+                            <input class="input--style-1" type="text" placeholder="NAME" name="name" required>
                         </div>
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1 " type="text" placeholder="Email" name="email">
+                                    <input class="input--style-1 " type="email" placeholder="Email" name="email" required>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                <input class="input--style-1" type="text" placeholder="Job" name="job">
+                                <input class="input--style-1" type="text" placeholder="Job" name="job" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1 " type="password" placeholder="Password" name="pass">
+                                    <input class="input--style-1 " type="password" placeholder="Password" name="pass" required>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                <input class="input--style-1" type="password" placeholder="Re-Type Password" name="rpass">
+                                <input class="input--style-1" type="password" placeholder="Re-Type Password" name="rpass" required>
                                 </div>
                             </div>
                         </div>
                         <div class="input-group">
                             <div class="rs-select2 js-select-simple select--no-search">
-                            <input class="input--style-1" type="text" placeholder="Location" name="location">
+                            <input class="input--style-1" type="text" placeholder="Location" name="location" required>
                             </div>
                         </div>
                        
                         <div class="p-t-20">
                             <button class="btn btn--radius btn--green" type="submit">Submit</button>
+                            <button class="btn btn--radius btn--green" type="button" onclick="window.location.replace('/login')">Sign In</button>
+
                         </div>
+
+                        
                     </form>
                 </div>
             </div>

@@ -24,7 +24,7 @@
 <link href="{{ asset('css/home/style.css') }}" rel="stylesheet"/>
 </head>
 
-<body>
+<body onmousemove="addTimeVal()">
   <div id="main">
     <div id="header">
       <div id="logo">
@@ -42,6 +42,9 @@
           <li><a href="/home/addAppointment">Add Appointment </a></li>
           <li><a href="/home/todo">To Do</a></li>
           <li class="selected"><a href="/home/calender">Calender</a></li>
+          @if(Session::get('job')=="admin")
+          <li><a href="/admin">Admin Panel</a></li>
+          @endif
           <li><a href="/logout">Logout</a></li>
         </ul>
       </div>
@@ -55,13 +58,13 @@
         <input type="text" id="search" class="form-control col-sm-3" width="20%" placeholder="Search">&nbsp;&nbsp;&nbsp;
         <select class="form-control col-sm-3" width="20%" id="selectJob" onchange="getJob(this.value)">
         <option value="" selected disabled hidden>Search By job</option>
-          @foreach($data as $jobData)
+          @foreach($jData as $jobData)
           <option>{{$jobData->job}}</option>
           @endforeach
         </select>&nbsp;&nbsp;&nbsp;
         <select class="form-control col-sm-3" width="20%" id="selectLocation" onchange="getLocation(this.value)">
         <option value="" selected disabled hidden>Search By Location</option>
-        @foreach($data as $locData)
+        @foreach($jData as $locData)
           <option>{{$locData->location}}</option>
           @endforeach
         </select>
@@ -74,6 +77,7 @@
         <th>Appointer Name</th>
         <th>Email</th>
         <th>Location</th>
+        <th>Date</th>
         <th>Time</th>
         <th>Duration</th>
         <th>Occupation</th>
@@ -86,10 +90,11 @@
        <td>{{$d->name}}</td>
        <td>{{$d->email}}</td>
        <td>{{$d->location}}</td>
-       <td>{{$d->time}}</td>
-       <td>{{$d->perSesssion}}</td>
+       <td>{{$d->date}}</td>
+       <td>{{$d->startTime}}</td>
+       <td>{{$d->duration}}</td>
        <td>{{$d->job}}</td>
-       <td><button class="btn btn-outline-info" onclick="requestAppointment('{{$d->aId}}','{{$d->userId}}')">Accept</button></td>
+       <td><button class="btn btn-outline-info" onclick="requestAppointment('{{$d->aiId}}','{{$d->userId}}')">Accept</button></td>
       </tr>
       @endforeach
     </tbody>
@@ -101,6 +106,8 @@
 
 </body>
 <script>
+ var iTime=7;
+
  $(document).ready(function(){
   $("#search").on("keyup", function() {
     var value = $(this).val().toLowerCase();
@@ -108,6 +115,8 @@
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
+  checkTime();
 });
 
 
@@ -125,7 +134,7 @@
                        
                       for(var i=0;i<result.data.length;i++)
                       {
-                        str +="<tr><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td>"+result.data[i].location+"</td><td>"+result.data[i].time+"</td><td>"+result.data[i].perSesssion+"</td><td>"+result.data[i].job+"</td><td><button class=\"btn btn-outline-info\" onclick=\"alert('"+result.data[i].aId+"')\">Accept</button></td></tr>";
+                        str +="<tr><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td>"+result.data[i].location+"</td><td>"+result.data[i].date+"</td><td>"+result.data[i].startTime+"</td><td>"+result.data[i].duration+"</td><td>"+result.data[i].job+"</td><td><button class=\"btn btn-outline-info\" onclick=\"requestAppointment('"+result.data[i].aiId+"','"+result.data[i].userId+"')\">Accept</button></td></tr>";
                       }
                $("#dataTable").html(str);
                $("#selectLocation").val("");
@@ -154,7 +163,7 @@
                        
                       for(var i=0;i<result.data.length;i++)
                       {
-                        str +="<tr><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td>"+result.data[i].location+"</td><td>"+result.data[i].time+"</td><td>"+result.data[i].perSesssion+"</td><td>"+result.data[i].job+"</td><td><button class=\"btn btn-outline-info\" onclick=\"alert('"+result.data[i].aId+"')\">Accept</button></td></tr>";
+                        str +="<tr><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td>"+result.data[i].location+"</td><td>"+result.data[i].date+"</td><td>"+result.data[i].startTime+"</td><td>"+result.data[i].duration+"</td><td>"+result.data[i].job+"</td><td><button class=\"btn btn-outline-info\" onclick=\"requestAppointment('"+result.data[i].aiId+"','"+result.data[i].userId+"')\">Accept</button></td></tr>";
                       }
                $("#dataTable").html(str);
                $("#selectJob").val("");
@@ -169,8 +178,7 @@
 
  function requestAppointment(aId,appUserId)
  {
-   alert(aId);
-   alert(appUserId);
+  
   $.ajax({
            method:"POST",
            url:"/home/request",
@@ -190,5 +198,46 @@
         });
  }
 
+ function checkTime(){
+   setTimeout(() => {
+    //refreshData();
+   }, 5000);
+ }
+ 
+ function  refreshData(){
+  var str="";
+
+    $.ajax({
+           method:"POST",
+           url:"/home/getUpdateData",
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                       
+                      for(var i=0;i<result.data.length;i++)
+                      {
+                        str +="<tr><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td>"+result.data[i].location+"</td><td>"+result.data[i].date+"</td><td>"+result.data[i].startTime+"</td><td>"+result.data[i].duration+"</td><td>"+result.data[i].job+"</td><td><button class=\"btn btn-outline-info\" onclick=\"alert('"+result.data[i].aiId+"')\">Accept</button></td></tr>";
+                      }
+                     
+ 
+               $("#dataTable").html(str);
+        
+
+               iTime=7;
+             }
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
+ }
+
+ function addTimeVal()
+{
+  iTime=7;
+}
 </script>
 </html>

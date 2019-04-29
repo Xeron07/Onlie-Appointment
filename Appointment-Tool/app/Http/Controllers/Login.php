@@ -19,6 +19,7 @@ class Login extends Controller
                 $req->session()->flash('msg','login Success');
                 $req->session()->put('user',$user);
                 $req->session()->put('userId',$user->userId);
+                $req->session()->put('job',$user->job);
                 return redirect("/home");
           }else{
               $req->session()->flash('msg','invalid username or password');

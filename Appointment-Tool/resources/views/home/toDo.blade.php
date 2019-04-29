@@ -5,6 +5,7 @@
   <title>shadowplay_1 - another page</title>
   <meta name="description" content="website description" />
   <meta name="keywords" content="website keywords, website keywords" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
   
     <!-- Latest compiled and minified CSS -->
@@ -41,48 +42,45 @@
           <li><a href="/home/addAppointment">Add Appointment </a></li>
           <li class="selected"><a href="/home/todo">To Do</a></li>
           <li><a href="/home/calender">Calender</a></li>
+          @if(Session::get('job')=="admin")
+          <li><a href="/admin">Admin Panel</a></li>
+          @endif
           <li><a href="/logout">Logout</a></li>
         </ul>
       </div>
     </div>
     <div id="content_header"></div>
-    <div id="site_content">
-      <div class="sidebar">
-        <!-- insert your sidebar items here -->
-        <h3>Latest News</h3>
-        <h4>New Website Launched</h4>
-        <h5>January 1st, 2010</h5>
-        <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-        <p></p>
-        <h4>New Website Launched</h4>
-        <h5>January 1st, 2010</h5>
-        <p>2010 sees the redesign of our website. Take a look around and let us know what you think.<br /><a href="#">Read more</a></p>
-        <h3>Useful Links</h3>
-        <ul>
-          <li><a href="#">link 1</a></li>
-          <li><a href="#">link 2</a></li>
-          <li><a href="#">link 3</a></li>
-          <li><a href="#">link 4</a></li>
-        </ul>
-        <h3>Search</h3>
-        <form method="post" action="#" id="search_form">
-          <p>
-            <input class="search" type="text" name="search_field" value="Enter keywords....." />
-            <input name="search" type="image" style="border: 0; margin: 0 0 -9px 5px;" src="style/search.png" alt="Search" title="Search" />
-          </p>
-        </form>
-      </div>
-      <div id="content">
-        <!-- insert the page content here -->
-        <h1>Another Page</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui.</p>
-      </div>
-    </div>
+    <div class="container">
+    <h2><u>Request Recieve</u></h2>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+      <th>Name</th>
+      <th>Email</th>
+        <th>Date</th>
+        <th>StartTime</th>
+        <th>Duration</th>
+        <th>Serial</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($data as $d)
+      <tr>
+      <td>{{$d->name}}</td>
+      <td>{{$d->email}}</td>
+      <td>{{$d->date}}</td>
+      <td>{{$d->startTime}}</td>
+      <td>{{$d->duration}}</td>
+      <td>{{$d->serial}}</td>
+      <td>
+          <button class="btn btn-success" onclick="accept('{{$d->aiId}}','{{$d->rid}}')">Accept</button>
+         <button class="btn btn-danger" onclick="cancel('{{$d->aiId}}','{{$d->rid}}')">Cancel</button></td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+</div>
     <div id="content_footer"></div>
     <div id="footer">
       <p><a href="index.html">Home</a> | <a href="examples.html">Examples</a> | <a href="page.html">A Page</a> | <a href="another_page.html">Another Page</a> | <a href="contact.html">Contact Us</a></p>
@@ -90,4 +88,53 @@
     </div>
   </div>
 </body>
+<script>
+ function accept(aid,rid)
+ {
+  $.ajax({
+           method:"POST",
+           url:"/home/accept",
+           data:{aid:aid,rid:rid},
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                       console.log(result.data);
+                     Swal.fire("Yahoo00!!","Appointment Accepted","success").then((result)=>{
+                      location.reload();
+                     });
+                     
+             }
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
+ }
+
+ function cancel(aid,rid){
+  $.ajax({
+           method:"POST",
+           url:"/home/cancel",
+           data:{aid:aid,rid:rid},
+                      headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                       console.log(result.data);
+                     Swal.fire("Ahem!!","Appointment Canceled ","success").then((result)=>{
+                      location.reload();
+                     });
+             }
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
+ }
+</script>
 </html>

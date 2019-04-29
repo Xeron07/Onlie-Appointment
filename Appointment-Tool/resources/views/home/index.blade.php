@@ -5,6 +5,7 @@
   <title>shadowplay_1</title>
   <meta name="description" content="website description" />
   <meta name="keywords" content="website keywords, website keywords" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
     <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -40,6 +41,9 @@
           <li><a href="/home/addAppointment">Add Appointment </a></li>
           <li><a href="/home/todo">To Do</a></li>
           <li><a href="/home/calender">Calender</a></li>
+          @if(Session::get('job')=="admin")
+          <li><a href="/admin">Admin Panel</a></li>
+          @endif
           <li><a href="/logout">Logout</a></li>
         </ul>
       </div>
@@ -49,19 +53,9 @@
       <div class="sidebar">
         <!-- insert your sidebar items here -->
         <h3>Latest News</h3>
-        <ul>
-          <li><a href="#">link 1</a></li>
-          <li><a href="#">link 2</a></li>
-          <li><a href="#">link 3</a></li>
-          <li><a href="#">link 4</a></li>
+        <ul id="news">
         </ul>
-        <h3>Search</h3>
-        <form method="post" action="#" id="search_form">
-          <p>
-            <input class="search" type="text" name="search_field" value="Enter keywords....." />
-            <input name="search" type="image" style="border: 0; margin: 0 0 -9px 5px;" src="style/search.png" alt="Search" title="Search" />
-          </p>
-        </form>
+        <br/>
       </div>
       <div id="content">
         <!-- insert the page content here -->
@@ -69,7 +63,51 @@
         <br>
         <h2>Upcoming Events:</h2>
         <div id="eventsComing"></div>
-
+        <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Duration</th>
+        <th>Serial</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+       @foreach($data as $d)
+       <tr>
+       <td>{{$d->date}}</td>
+       <td>{{$d->startTime}}</td>
+       <td>{{$d->duration}}</td>
+       <td>{{$d->serial}}</td>
+       @if($d->active ==0)
+        <td>Pending</td>
+        @elseif($d->active==1)
+        <td>Accepted</td>
+        @elseif($d->active==3)
+        <td>Canceled</td>
+        @endif
+       </tr>
+       @endforeach
+    </tbody>
+  </table>
+</div>
+<h2>Appointments</h2>
+      <div class="list-group">
+      @foreach($dList as $dl)
+         <a class="list-group-item list-group-item-action">
+          Name:{{$dl->name}}<br/>
+          Location:{{$dl->location}}<br/>
+          Date:{{$dl->date}}<br/>
+          StartTime:{{$dl->startTime}}<br/>
+          Duration:{{$dl->duration}}<br/>
+         </a>
+      @endforeach
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 
       </div>
     </div>
@@ -91,10 +129,15 @@
 </body>
 <script>
   $('document').ready(()=>{
-   
+    
       setTimeout(playBgSound, 1000);
+      setTimeout(callFunc, 5000);
 
   });
+  function callFunc(){
+    getNews();
+    setTimeout(callFunc, 5000);
+  }
 
   function playBgSound(){
     var bgS=$("#bgsound");
@@ -117,6 +160,34 @@
     var home2 =new Audio();
     var hs2=$("#hs2");
     hs2[0].play();
+  }
+
+
+  function getNews(){
+    var str="";
+    $.ajax({
+           method:"POST",
+           url:"/news/getNews",
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           success:(result)=>{
+             if(result.msg=="success"){
+                       console.log(result.data);
+                       for(var i=0;i<result.data.length;i++){
+                       str+="<li><a  data-toggle='popover' title=\""+result.data[i].title+"\" data-content=\""+result.data[i].msg+"\">"+result.data[i].title+"</a></li>";
+                       }
+                       $("#news").html(str);
+                       $('[data-toggle="popover"]').popover(); 
+                     };
+                     
+             
+           },
+           error:(err)=>{
+             //Swal.fire(err);
+             console.log(err);
+           }
+        });
   }
 </script>
 </html>

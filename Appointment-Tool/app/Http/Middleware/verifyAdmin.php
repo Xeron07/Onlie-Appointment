@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class VerifyUserBySession
+class verifyAdmin
 {
     /**
      * Handle an incoming request.
@@ -15,13 +15,10 @@ class VerifyUserBySession
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->session()->has('userId'))
+        if(!$request->session()->get("job")=="admin")
         {
             return redirect('/login');
         }
-        
-        
-        
         return $next($request);
     }
 }

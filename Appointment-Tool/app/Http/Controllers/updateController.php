@@ -42,4 +42,11 @@ class updateController extends Controller
     	  return response()
             ->json(array('msg'=>'success'), 200);
     }
+
+    public function news(Request $req){
+            DB::table('news')->where('id','=',$req->id)
+                             ->update(['title'=>$req->title,'msg'=>$req->msg]);
+                             return response()
+                             ->json(array('msg'=>'success'), 200);
+    }
 }

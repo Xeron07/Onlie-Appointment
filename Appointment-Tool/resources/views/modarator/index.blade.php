@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Admin</title>
+  <title>Modarator</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,9 +19,7 @@
     </div>
     <ul class="nav navbar-nav">
     <li onclick="window.location.replace('/home')"><a >Home</a></li>
-      <li onclick="openUser()"><a>Users</a></li>
-      <li onclick="openApp()"><a >Appointments</a></li>
-      <li onclick="openNews()"><a >News</a></li>
+      <li><a >News</a></li>
       
       
     </ul>
@@ -34,24 +32,23 @@
 <div class="container">
 
 <div id="user" style="display:none">
-</br>	
+<br/>	
 <input class="form-control" id="myInput1" type="text" placeholder="Search User..">
   <table class="table">
     <thead class="thead-light">
       <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
+        <th>Title</th>
         <th>Operation</th>
       </tr>
     </thead>
     <tbody id="myTable1">
-     @foreach ($users as $user)
+     @foreach ($news as $n)
       <tr>
-			<td>{{ $user->userId }}</td>
-			<td>{{ $user->name}}</td>
-			<td>{{ $user->email}}</td>
-			<td><button type="button" class="btn btn-danger" onclick="deleteUserConfirm('{{ $user->userId }}')">Delete</button></td>
+			<td>{{ $n->id }}</td>
+			<td>{{ $n->title}}</td>
+			<td><button type="button" class="btn btn-info" onclick="window.location.replace('/modarator/news/update/{{$n->id}}')">Edit</button>
+            <button type="button" class="btn btn-danger" onclick="deletenewsConfirm('{{$n->id}}')">Delete</button></td>
 		</tr>
 	@endforeach
     </tbody>
@@ -59,46 +56,6 @@
 </div>
 
 
-<div id="app" style="display:none">
-</br>
-<input class="form-control" id="myInput2" type="text" placeholder="Search Appointment..">
-  <table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Location</th>
-        <th>Operation</th>
-      </tr>
-    </thead>
-    <tbody id="myTable2">
-     @foreach ($apps as $app)
-      <tr>
-			<td>{{ $app->aId }}</td>
-			<td>{{ $app->title}}</td>
-			<td>{{ $app->location}}</td>
-			<td><button type="button" class="btn btn-danger" onclick="deleteappConfirm('{{ $app->aId }}')">Delete</button></td>
-		</tr>
-	@endforeach
-    </tbody>
-  </table>
-
-
-</div>
-
-<div id="news" style="display:none">
-   <b style="font-size:120%">Title</b>
-   <br/>
-   <input class="form-control col-sm-3" style="width:20%" id="title" type="text">
-   <br/>
-   <br/>
-   <b style="font-size:120%">Message</b>
-   <textarea rows="7" cols="35" class="form-control" id="msg"></textarea>
-   <br/>
-   <button type="button" class="btn btn-success" onclick="newsPublish()">Publish</button>
-
-
-</div>
 
 
 
@@ -155,7 +112,7 @@ $(document).ready(function(){
   });
 });
 
-function deleteUserConfirm(id){
+function deletenewsConfirm(id){
 	Swal.fire({
   title: 'Are you sure?',
   text: "You won't be able to revert this!",
@@ -166,15 +123,15 @@ function deleteUserConfirm(id){
   confirmButtonText: 'Yes, delete it!'
 }).then((result) => {
   if (result.value) {
-        deleteuser(id);  
+        deletenews(id);  
 }});
 
 }
 
-function deleteuser(id){
+function deletenews(id){
 	 $.ajax({
            method:"POST",
-           url:"/delete/user",
+           url:"/modarator/delete/news",
            data:{id:id},
            headers: {
              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -182,7 +139,7 @@ function deleteuser(id){
            success:(result)=>{
              if(result.msg=="success"){
                        console.log(result.data);
-                     Swal.fire("","User Deleted","success").then((result)=>{
+                     Swal.fire("","News Deleted","success").then((result)=>{
                           location.reload();
                      });
                      

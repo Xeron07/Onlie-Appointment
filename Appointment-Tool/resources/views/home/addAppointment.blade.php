@@ -47,6 +47,9 @@
           <li class="selected"><a href="/home/addAppointment">Add Appointment </a></li>
           <li><a href="/home/todo">To Do</a></li>
           <li><a href="/home/calender">Calender</a></li>
+          @if(Session::get('job')=="admin")
+          <li><a href="/admin">Admin Panel</a></li>
+          @endif
           <li><a href="/logout">Logout</a></li>
         </ul>
       </div>
@@ -72,7 +75,6 @@
          Enter Location: <input type="text" class="form-control" name="" id="location"/>
          <br/>
          
-<<<<<<< HEAD
            Select date:    <input type="date"   class="form-control col-sm-4" name="" id="date">
            
            <br/>
@@ -93,21 +95,6 @@
          <br/>
          <br/>
          <button type="button" class="btn btn-info btn-block" onclick="addAppointment()">Add</button>
-=======
-           Select date:    <input type="date"   class="form-control col-sm-4" name="" id="date"><br/>
-        
-           Select Time:<br/>   
-            <input type="text" class="form-control col-sm-3" id="single-input" value="" placeholder="From">&nbsp;&nbsp;&nbsp; <input type="text" class="form-control col-sm-3" id="single-input2" value="" placeholder="To">
-        
-        <br/>
-        <br/>
-        Select Duration for each session:
-         <input type="number" class="form-control" name="" id="duration" placeholder="Duration for each session">
-         <br/>
-         <br/>
-         <br/>
-         <button type="button" class="btn btn-outline-info btn-block" onclick="addAppointment()">Add</button>
->>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
    
       <br/>
       <br/>
@@ -142,7 +129,6 @@
     }, 1000);
  }
 
-<<<<<<< HEAD
  $('#single-input').clockpicker({
   twelvehour: true,
   placement: 'top',
@@ -158,17 +144,7 @@
 
   function addAppointment(){
 
-    $.ajaxSetup({
-
-headers: {
-
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-}
-
-});
-
-
+   var timeArray=[];
 
 
     var location=$("#location").val();
@@ -183,30 +159,49 @@ headers: {
     var toA=tarray[1].substring(2,4);
 
 
-    var fromTime=(farray[0]*60)+farray[1].substring(0,2);
-    var toTime=(tarray[0]*60)+tarray[1].substring(0,2);
+    var fromTime=(farray[0]*60)+parseInt(farray[1].substring(0,2));
+   
+    var toTime=(tarray[0]*60)+parseInt(tarray[1].substring(0,2));
 
-    console.log(fromA);
-    console.log(toA);
-    console.log(toTime-fromTime);
+    console.log("from"+fromTime+" to"+toTime);
+
+    // console.log(fromA);
+    // console.log(toA);
+    // console.log(toTime-fromTime);
     var dur=toTime-fromTime;
+    var d=$("#duration").val();
     
     if((fromA.match("PM") && toA.match("AM"))||(fromTime>toTime)){
       Swal.fire("Oops!","Wrong time selected","error");
     }
     else
     {
-      var session=(dur/$("#duration").val())/100;
+      var session=(dur/$("#duration").val());
+      var startTime=fromTime;
+
+       for(var i=0;i<session;i++){
+         var stime=parseInt(startTime/60)+":"+parseInt(startTime%60);
+
+         var obj={
+           startTime:stime,
+           duration:d,
+           serial:(i+1),
+           active:0,
+           date:date
+         };
+         timeArray.push(obj);
+         startTime+=parseInt(d);
+       }
+       console.log(timeArray);
       if(location==""||date==""){
-        console.log(location);
-        console.log(date);
+       
         Swal.fire("Oops!","Please fill up all the field","error");
       }else{
            
         $.ajax({
            method:"POST",
            url:"/home/addAppointment",
-           data:{title:title,date:date,location:location,time:from,duration:$("#duration").val(),perSession:dur,ses:session},
+           data:{title:title,date:date,location:location,time:from,duration:$("#duration").val(),perSession:dur,ses:session,timeArray:timeArray},
            headers: {
              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -225,18 +220,6 @@ headers: {
       
     }
     
-=======
- $('#single-input').clockpicker();
- $('#single-input2').clockpicker();
-
-  function addAppointment(){
-    var location=$("#location").val();
-    var from =$("#single-input").val();
-    var to=$("#single-input2").val();
-    var farray=from.split(":");
-    console.log(farray);
-    Swal.fire(farray[0]);
->>>>>>> cdd038ab9cdd10054b077117399d87b02a4cba54
 
   }
 

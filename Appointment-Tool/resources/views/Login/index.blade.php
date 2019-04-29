@@ -37,7 +37,7 @@
          <button type="submit"><span>GO</span> <i class="fa fa-check"></i></button>
       </div>
 </form>
-      <a href="" class="pass-forgot">Forgot your password?</a>
+      <a href="/registration" class="pass-forgot" style="color:blue">Don't have an account? SignUp</a>
    </div>
 </div>
 </body>
