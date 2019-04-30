@@ -20,7 +20,7 @@
     <ul class="nav navbar-nav">
     <li onclick="window.location.replace('/home')"><a >Home</a></li>
     <li onclick="window.location.replace('/modarator/users')"><a >Users</a></li>
-      <li><a >News</a></li>
+      <li onclick="window.location.replace('/modarator')"><a >News</a></li>
       
       
     </ul>
@@ -39,17 +39,17 @@
     <thead class="thead-light">
       <tr>
         <th>ID</th>
-        <th>Title</th>
+        <th>Name</th>
         <th>Operation</th>
       </tr>
     </thead>
     <tbody id="myTable1">
      @foreach ($news as $n)
       <tr>
-			<td>{{ $n->id }}</td>
-			<td>{{ $n->title}}</td>
-			<td><button type="button" class="btn btn-info" onclick="window.location.replace('/modarator/news/update/{{$n->id}}')">Edit</button>
-            <button type="button" class="btn btn-danger" onclick="deletenewsConfirm('{{$n->id}}')">Delete</button></td>
+			<td>{{ $n->userId }}</td>
+			<td>{{ $n->name}}</td>
+			<td><button type="button" class="btn btn-info" onclick="window.location.replace('/modarator/user/update/{{$n->userId}}')">Edit</button>
+            <button type="button" class="btn btn-danger" onclick="deletenewsConfirm('{{$n->userId}}')">Delete</button></td>
 		</tr>
 	@endforeach
     </tbody>
@@ -132,7 +132,7 @@ function deletenewsConfirm(id){
 function deletenews(id){
 	 $.ajax({
            method:"POST",
-           url:"/modarator/delete/news",
+           url:"/delete/user",
            data:{id:id},
            headers: {
              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

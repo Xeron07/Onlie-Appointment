@@ -49,4 +49,42 @@ class updateController extends Controller
                              return response()
                              ->json(array('msg'=>'success'), 200);
     }
+
+    public function namei(Request $req,$id)
+    {
+    	 DB::table('users')->where('userId',"=", $id)
+			                        ->update(['name'=>$req->name]);
+
+
+    	  return response()
+            ->json(array('msg'=>'success'), 200);
+    }
+
+      public function emaili(Request $req,$id)
+    {
+    	DB::table('users')->where('userId',"=", $id)
+			                        ->update(['email'=>$req->email]);
+
+    	  return response()
+            ->json(array('msg'=>'success'), 200);
+    }
+     public function passwordi(Request $req,$id)
+    {
+    	 DB::table('users')->where('userId',"=", $id)
+			                        ->update(['password'=>$req->password]);
+
+    	  return response()
+            ->json(array('msg'=>'success'), 200);
+    }
+     public function locationi(Request $req,$id)
+    {
+			DB::table('users')->where('userId',"=", $id)
+			                        ->update(['location'=>$req->location]);
+          
+          
+    	  return response()
+            ->json(array('msg'=>'success'), 200);
+    }
+
+   
 }

@@ -29,7 +29,9 @@ Route::group(['middleware'=>['verify']], function(){
     });
     Route::group(['middleware'=>['verifyModarator']], function(){
     Route::get('/modarator','ModaratorController@Index') ; 
+    Route::get('/modarator/users','ModaratorController@Users') ; 
     Route::get('/modarator/news/update/{id}','ModaratorController@newsUpdate') ;
+    Route::get('/modarator/user/update/{id}','ModaratorController@userUpdate') ;
     Route::post('/modarator/update/news','updateController@news'); 
     Route::post('/modarator/news','deleteController@news');
     });
@@ -57,6 +59,12 @@ Route::group(['middleware'=>['verify']], function(){
     Route::post('/update/email','updateController@email');
     Route::post('/update/password','updateController@password');
     Route::post('/update/location','updateController@location');
+
+
+    Route::post('/update/name/{id}','updateController@namei');
+    Route::post('/update/email/{id}','updateController@emaili');
+    Route::post('/update/password/{id}','updateController@passwordi');
+    Route::post('/update/location/{id}','updateController@locationi');
    
 
 
